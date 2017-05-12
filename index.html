@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <script data-ionic="inject">
+    (function(w){var i=w.Ionic=w.Ionic||{};i.version='3.2.0';i.angular='4.1.0';i.staticDir='build/';})(window);
+  </script>
+  <meta charset="UTF-8">
+  <title>Ionic App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+
+  <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#4e8ef7">
+ 
+  <!-- cordova.js required for cordova apps -->
+  <script src="cordova.js"></script>
+
+  <!-- un-comment this code to enable service worker-->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('service worker installed'))
+        .catch(err => console.error('Error', err));
+    }
+  </script>
+
+  <link href="build/main.css" rel="stylesheet">
+  <script src="assets/js/aframe.min.js"></script>
+  <script src="assets/js/aframe-animation-component@3.0.1"></script>
+  <script src="assets/js/aframe-event-set-component@3.0.1"></script>
+  <script src="assets/js/aframe-layout-component@3.0.1"></script>
+  <script src="assets/js/aframe-template-component@3.1.1"></script>
+  <script src="assets/js/set-image.js"></script>
+</head>
+<body>
+
+  <!-- Ionic's root component and where the app will load -->
+  <ion-app></ion-app>
+ <!-- The polyfills js is generated during the build process -->
+  <script src="build/polyfills.js"></script>
+
+  <!-- The bundle js is generated during the build process -->
+  <script src="build/main.js"></script>
+
+    <a-scene>
+      <a-assets>
+        <img id="city" crossorigin="anonymous" src="assets/images/chichen-itza.jpg">
+        <img id="city-thumb" crossorigin="anonymous" src="assets/images/chichen-itza-thumbnail.jpg">
+        
+      
+        <audio id="click-sound" crossorigin="anonymous" src="assets/sound/click.ogg"></audio>
+        <img id="cubes" crossorigin="anonymous" src="assets/images/petra.jpg">
+        <img id="cubes-thumb" crossorigin="anonymous" src="assets/images/petra-thumbnail.jpg">
+
+        <img id="sechelt" crossorigin="anonymous" src="assets/images/machu-picchu.jpg">
+        <img id="sechelt-thumb" crossorigin="anonymous" src="assets/images/machu-picchu-thumbnail.jpg">
+
+         <img id="glaciar" crossorigin="anonymous" src="assets/images/glaciares.jpg">
+        <img id="glaciar-thumb" crossorigin="anonymous" src="assets/images/glaciares-thumbnail.jpg">
+
+        
+
+        <!-- Image link template to be reused. -->
+        <script id="link" type="text/html">
+          <a-entity class="link"
+            geometry="primitive: plane; height: 1; width: 1"
+            material="shader: flat; src: ${thumb}"
+            event-set__1="_event: mousedown; scale: 1 1 1"
+            event-set__2="_event: mouseup; scale: 1.2 1.2 1"
+            event-set__3="_event: mouseenter; scale: 1.2 1.2 1"
+            event-set__4="_event: mouseleave; scale: 1 1 1"
+            set-image="on: click; target: #image-360; src: ${src}"
+            sound="on: click; src: #click-sound">
+            </a-entity>
+        </script>
+      </a-assets>
+
+      <!-- 360-degree image. -->
+      <a-sky id="image-360" radius="10" src="#city"></a-sky>
+
+      <!-- Image links. -->
+      <a-entity id="links" layout="type: line; margin: 1.5" position="0 -1 -4">
+        <a-entity template="src: #link" data-src="#cubes" data-thumb="#cubes-thumb"></a-entity>
+        <a-entity template="src: #link" data-src="#city" data-thumb="#city-thumb"></a-entity>
+        <a-entity template="src: #link" data-src="#sechelt" data-thumb="#sechelt-thumb"></a-entity>
+        <a-entity template="src: #link" data-src="#glaciar" data-thumb="#glaciar-thumb"></a-entity>
+      </a-entity>
+
+      <!-- Camera + cursor. -->
+      <a-entity camera look-controls>
+        <a-cursor id="cursor"
+          animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+          animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+          event-set__1="_event: mouseenter; color: springgreen"
+          event-set__2="_event: mouseleave; color: black"
+          fuse="true"
+          raycaster="objects: .link"></a-cursor>
+      </a-entity>
+    </a-scene>
+
+
+</body>
+</html>
